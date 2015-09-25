@@ -1,0 +1,8 @@
+extends index
+
+block more_content
+ div
+  form(action='/page2',method='post')
+    label(for='stocksymbol') stock symbol: 
+    input(id='stocksymbol',type='text',value='HSBC.L',placeholder='HSBA.L',name='stocksymbol')
+    input(type='submit',value='Fetch')
