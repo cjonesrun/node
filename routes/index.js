@@ -1,6 +1,7 @@
 var request = require("request");
 var express = require('express');
 var router = express.Router();
+var log = require('log4js').getLogger("app");
 
 router.get('/', function(req, res) {
   res.render('index', { title: 'home home', url: 'http://www.sarcastico.net/' });
@@ -12,7 +13,8 @@ router.get('/page1', function(req, res) {
 });
 
 router.post('/page2', function(req, res) {
-  console.log('symbol : ' + req.body.stocksymbol);
+  log.debug('looking up symbol : ', req.body.stocksymbol);
+  log.error('error... looking up symbol : ', req.body.stocksymbol);
   var stockurl = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22" +
     req.body.stocksymbol+ "%22)&env=store://datatables.org/alltableswithkeys";
   
@@ -23,10 +25,6 @@ router.post('/page2', function(req, res) {
         res.render('page2', { title: req.body.stocksymbol, url: stockurl, stockdata: resultsObj });
     }
   });
-
-//  console.log(resultsObj);
-
-  //res.render('page2', { title: req.body.stocksymbol, url: 'http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22HSBA.L%22)&env=store://datatables.org/alltableswithkeys', stockdata: resultsObj });
 });
 
 router.get('/page2', function(req, res) {

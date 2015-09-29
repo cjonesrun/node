@@ -4,7 +4,7 @@
     "private": true,
     "config": { "port": "8080" },
     "scripts": {
-        "start": "DEBUG=nodeexpress:* nodejs app.js"
+        "start": "nodejs ./bin/www"
     },
     "dependencies": {
 	"body-parser": "~1.12.4",
@@ -15,6 +15,8 @@
         "morgan": "~1.5.3",
         "serve-favicon": "~2.2.1",
         "mongodb": "~2.0.33",
-        "monk": "~1.0.1"
+        "monk": "~1.0.1",
+        "log4js": "~0.6.27",
+        "express-cluster": "0.0.2"
     }
 }

@@ -1,31 +1,11 @@
-var debug = require('debug');
 var path = require('path');
 var bodyParser = require('body-parser')
-
-var error = debug('nodeexpress:error');
-var log = debug('nodeexpress:log');
-
-// by default stderr is used
-error('goes to stderr!');
-
-// set this namespace to log via console.log
-log.log = console.log.bind(console); // don't forget to bind to console!
-log('goes to stdout');
-error('still goes to stderr!');
-
-// set all output to go via console.info
-// overrides all per-namespace log settings
-debug.log = console.info.bind(console);
-error('now goes to stdout via console.info');
-log('still goes to stdout, but via console.info now');
-var third = debug('nodeexpress:third');
-third('blah blah blah');
-
-
-var PORT = process.env.PORT || 8080;
-
+var log4js = require( "log4js" );
 var express = require("express");
 var app = express();
+
+var log = log4js.getLogger( "app" );
+app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 
 // routes
 var routes = require('./routes/index.js');
@@ -38,15 +18,38 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
-//handle GET requests on /
-//app.get('/', function(req, res){res.render('index.jade', {title: 'Chris Jones'});});
-
 app.use('/', routes);
 
-//listen on localhost:8080
-console.log("listening on 8080");
-log('listening on 8080');
+/// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
 
-app.listen(8080);
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    log.info("development logging enabled.");
+    app.use(function(err, req, res, next) {
+        log.error("Something went wrong:", err);
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+}
 
-console.log('pid:%d listening on %d', process.pid, PORT);
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    log.error("Something went wrong:", err);
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
+});
+
+module.exports = app;
