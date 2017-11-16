@@ -7,6 +7,8 @@ var app = express();
 var log = log4js.getLogger( "app" );
 app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 
+log.info("app test");
+log4js.getLogger("http").info("http test");
 // routes
 var routes = require('./routes/index.js');
 
@@ -16,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
-})); 
+}));
 
 app.use('/', routes);
 
