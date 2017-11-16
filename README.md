@@ -1,2 +1,2 @@
-# node
-messing around with node, express, mongo, pug, etc...
+app1: a node js app with express, pug, log4js
+app2: 

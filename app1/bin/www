@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+var log = require( "./config/log.js" );
+
+var cluster = require('express-cluster');
+
+// init logging
+cluster(function() {
+  var app = require('../app');
+
+  app.set('port', process.env.PORT || 8080);
+
+  var server = app.listen(app.get('port'), function() {
+    log.info('listening on port ', server.address().port, " with pid ", process.pid );
+  });
+});
