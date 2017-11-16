@@ -11,7 +11,7 @@ app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 var routes = require('./routes/index.js');
 
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
