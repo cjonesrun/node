@@ -2,6 +2,9 @@
 log
 *.log
 
+# dangling swp files
+*.swp
+
 # Runtime data
 pids
 *.pid
