@@ -1,15 +1,15 @@
 {
-  "type": "clustered",
   "appenders": {
-    "console": { "type": "console" },
-    "http": { "type": "dateFile", "filename": "log/access.log", "pattern": "-yyyy-MM-dd" },
-    "app": { "type": "file", "filename": "log/app.log", "maxLogSize": 10240, "numBackups": 3 },
+    "console": { "type": "console", "layout": { "type": "pattern",
+      "pattern": "[%d] [%p] [proc:%z] %c - %m" } },
+    "app": { "type": "dateFile", "filename": "log/app.log", "pattern": "-yyyy-MM-dd" },
+    "access": { "type": "dateFile", "filename": "log/access.log", "pattern": "-yyyy-MM-dd" },
+
     "exceptions": { "type": "file", "filename": "log/error.log", "maxLogSize": 10240, "numBackups": 3 },
     "error": { "type": "logLevelFilter", "appender": "exceptions", "level": "error" }
   },
   "categories": {
-    "default": { "appenders": ["console"], "level": "debug" },
-    "access": { "appenders": ["http", "error" ], "level": "debug" },
-    "app": { "appenders": ["app", "error" ], "level": "debug" }
+    "default": { "appenders": ["console", "app", "error"], "level": "info" },
+    "access": { "appenders": [ "access", "error" ], "level": "trace" }
   }
 }
