@@ -1,7 +1,8 @@
-extends index
+extends layout
 
-block more_content
-  p= stockdata
+block content
+  h1
+    p='widgets'
 
   table
     for widget in widgets
@@ -11,3 +12,5 @@ block more_content
           a(href='/widgets/'+widget.id) #{widget.name}
         td= widget.desc
         td= widget.desc
+
+  block more_content

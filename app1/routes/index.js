@@ -44,7 +44,11 @@ router.get('/widgets', function(req, res) {
 });
 
 router.get('/widgets/:widgetid', function(req, res) {
-  res.render('page2', { title: 'rendered from widgets', url: 'http://www.google.com' });
+  var db = req.db;
+  var widgetid = 1;
+  db.getWidget( widgetid, (results) => {
+    res.render('page2', { title: 'widget', widget: results });
+  });
 });
 
 module.exports = router;
