@@ -2,9 +2,11 @@ doctype html
 html
   head
     title= title
+    link(rel="stylesheet", href="/static/css/style.css")
+
   body
     script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
-    script(src='/javascripts/global.js')
+    script(src='/static/js/global.js')
     include navigation
 
     block content

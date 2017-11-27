@@ -1,5 +1,5 @@
 var assert = require('assert');
-var logger = require('../log');
+var logger = require('../logging');
 var child_process = require('child_process');
 const uuidv4 = require('uuid/v4');
 
@@ -7,7 +7,7 @@ var access_log_file = 'log/access.log';
 var app_log_file = 'log/app.log';
 var err_log_file = 'log/error.log';
 
-describe('log-tests', function() {
+describe('log-test-suite', function() {
 
   before("before", function() {
     // runs before all tests in this block

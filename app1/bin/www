@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var cluster = require('express-cluster');
-var logger = require('../log');
+var logger = require('../logging');
 var dbapi = require('../db');
 
 logger.config();

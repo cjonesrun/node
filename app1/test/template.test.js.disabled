@@ -27,11 +27,11 @@ describe('node-js-test-template', function() {
     });
   });
 
-  /*describe('test-case-2', function() {
+  describe('test-case-2', function() {
     describe('do-domething-else', function() {
       it('test fail example', function() {
         assert.equal(-1, 1);
       });
     });
-  });*/
+  });
 });
