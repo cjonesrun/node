@@ -10,6 +10,10 @@ const _db_properties = {
 
 const _log_config = './config/log4js.json';
 
+const _server_config = {
+  
+}
+
 module.exports = {
   dbprops : _db_properties,
   logprops : _log_config
