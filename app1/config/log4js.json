@@ -9,7 +9,7 @@
     "error": { "type": "logLevelFilter", "appender": "exceptions", "level": "error" }
   },
   "categories": {
-    "default": { "appenders": ["console", "app", "error"], "level": "info" },
+    "default": { "appenders": ["app", "error"], "level": "trace" },
     "access": { "appenders": [ "access", "error" ], "level": "trace" }
   }
 }

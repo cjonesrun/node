@@ -5,14 +5,11 @@ describe('db-tests', function() {
 
   before("before", function() {
     // runs before all tests in this block
-    // connect to db
-    //console.log("connecting to db");
     dbapi.connectDB();
   });
 
   after("after", function() {
     // runs after all tests in this block
-    // disconnect from db
     dbapi.disconnectDB();
   });
 

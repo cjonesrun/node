@@ -7,7 +7,6 @@ let _db;
 const connectDB = async (callback) => {
   try {
     _db = new pg.Pool( cfg.dbprops );
-    //console.log('pg pool is online with', cfg.dbprops);
   } catch (e) {
     throw e;
   }
@@ -16,11 +15,8 @@ const connectDB = async (callback) => {
 const getDB = () => _db;
 
 const disconnectDB = () => {
-  console.log("closing pool");
   _db.end();
 }
-
-
 
 const query = (query, argsArray, callback) => {
     _db.connect((err, client, done) => {
@@ -35,13 +31,5 @@ const query = (query, argsArray, callback) => {
         });
     });
 }
-
-
-
-
-/*connectDB();
-var time =  _db.query('select * from widget;')
-console.log( time.then((r) => { console.log (r.rows);}) ) ;
-disconnectDB();*/
 
 module.exports = Object.assign({}, { query, connectDB, getDB, disconnectDB });

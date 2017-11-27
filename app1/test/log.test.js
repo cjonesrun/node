@@ -3,7 +3,9 @@ var logger = require('../log');
 var child_process = require('child_process');
 const uuidv4 = require('uuid/v4');
 
-var log_file = 'out/app.log';
+var app_log_file = 'out/app.log';
+var err_log_file = 'out/error.log';
+var access_log_file = 'out/access.log';
 
 describe('log-tests', function() {
 
@@ -26,24 +28,48 @@ describe('log-tests', function() {
 
   // test cases
   describe('test log appending', function() {
-      it('log uuid to '+ log_file +' and check log for occurrence', (done) => {
+      it('log uuid to '+ app_log_file +' and check log for occurrence', (done) => {
         var uuid = uuidv4();
         logger.getLogger().info("dumping UUID to default", uuid);
 
-        findUUID(log_file, uuid, (err, str) => {
+        findUUID(app_log_file, uuid, (err, data) => {
           // err non-null, fail the test
           assert.equal(err, null, "some error occurred.");
           // assert that there were matches
-          assert.equal(true, str!==null&&str.length>0, uuid+" not found in " + log_file);
+          assert.equal(true, data!==null&&data.length>0, uuid+" not found in " + app_log_file);
+          done();
+        });
+      });
+      it('log uuid to '+ err_log_file +' and check log for occurrence', (done) => {
+        var uuid = uuidv4();
+        logger.getLogger().error("dumping UUID to default", uuid);
+
+        findUUID(err_log_file, uuid, (err, data) => {
+          // err non-null, fail the test
+          assert.equal(err, null, "some error occurred.");
+          // assert that there were matches
+          assert.equal(true, data!==null&&data.length>0, uuid+" not found in " + err_log_file);
+          done();
+        });
+      });
+      it('log uuid to '+ access_log_file +' and check log for occurrence', (done) => {
+        var uuid = uuidv4();
+        logger.getLogger("access").info("dumping UUID to default", uuid);
+
+        findUUID(access_log_file, uuid, (err, data) => {
+          // err non-null, fail the test
+          assert.equal(err, null, "some error occurred.");
+          // assert that there were matches
+          assert.equal(true, data!==null&&data.length>0, uuid+" not found in " + access_log_file);
           done();
         });
       });
     });
 });
 
-function findUUID( filename, regexp, done ) {
+function findUUID( filename, regexp, callback ) {
     cmd = "egrep '" + regexp.toString().slice(1, -1) + "' " + filename;
     child_process.exec(cmd, {maxBuffer: 200000000}, function(err, stdout, stderr) {
-        done(err, stdout);
+        callback(err, stdout);
     });
 }

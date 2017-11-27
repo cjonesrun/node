@@ -1,6 +1,5 @@
 # Logs
 *.log
-out/
 
 # dangling swp files
 *.swp
