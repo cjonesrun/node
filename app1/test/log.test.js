@@ -3,9 +3,9 @@ var logger = require('../log');
 var child_process = require('child_process');
 const uuidv4 = require('uuid/v4');
 
-var app_log_file = 'out/app.log';
-var err_log_file = 'out/error.log';
-var access_log_file = 'out/access.log';
+var access_log_file = 'log/access.log';
+var app_log_file = 'log/app.log';
+var err_log_file = 'log/error.log';
 
 describe('log-tests', function() {
 
