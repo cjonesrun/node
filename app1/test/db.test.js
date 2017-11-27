@@ -1,15 +1,19 @@
 var assert = require('assert');
+var dbapi = require('../db');
 
 describe('db-tests', function() {
 
   before("before", function() {
     // runs before all tests in this block
     // connect to db
+    //console.log("connecting to db");
+    dbapi.connectDB();
   });
 
   after("after", function() {
     // runs after all tests in this block
     // disconnect from db
+    dbapi.disconnectDB();
   });
 
   beforeEach("before each", function() {
@@ -21,11 +25,23 @@ describe('db-tests', function() {
   });
 
   // test cases
-  describe('test-case-1', function() {
-    describe('do-domething', function() {
-      it('should assert to true', function() {
-        assert.equal(-1, [1,2,3].indexOf(4));
-      });
+  describe('load widgets', function() {
+    it('checking size of returned results', function() {
+      return dbapi.getDB().query('select * from widget;').then(function(result) {
+        assert.equal(4, result.rows.length);
+      })});
+
+    it('check that returned results contains "nothing"', function() {
+      return dbapi.getDB().query('select * from widget;').then(function(result) {
+
+        var filtered = result.rows.reduce(function(prevVal, elem) {
+          if ('nothing' === elem.name)
+              prevVal.push(elem.name);
+          return prevVal;
+        }, []);
+
+        assert.equal(true, filtered.length>0, 'nothing is not in the list');
+      })
     });
   });
 

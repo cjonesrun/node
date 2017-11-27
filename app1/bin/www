@@ -1,20 +1,12 @@
 #!/usr/bin/env node
-var log4js = require('log4js');
 var cluster = require('express-cluster');
+var logger = require('../log');
+var dbapi = require('../db');
 
-// make log dir if missing
-try {
-  require('fs').mkdirSync('./log');
-} catch (e) {
-  if (e.code != 'EEXIST') {
-    console.error("Could not mkdir ./log. error: ", e);
-    process.exit(1);
-  }
-}
+logger.config();
+dbapi.connectDB();
 
-// init logging
-log4js.configure('./config/log4js.json');
-var log = log4js.getLogger("app");
+var log = logger.getLogger();
 
 cluster(function() {
   var app = require('../app');
@@ -24,4 +16,4 @@ cluster(function() {
   var server = app.listen(app.get('port'), function() {
     log.info('listening on port ', server.address().port, " with pid ", process.pid );
   });
-}, {count: 4});
+}, {count: 1});
