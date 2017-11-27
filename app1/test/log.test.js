@@ -34,7 +34,7 @@ describe('log-tests', function() {
 
         findUUID(app_log_file, uuid, (err, data) => {
           // err non-null, fail the test
-          assert.equal(err, null, "some error occurred.");
+          assert.equal(err, null, "some error occurred.", err);
           // assert that there were matches
           assert.equal(true, data!==null&&data.length>0, uuid+" not found in " + app_log_file);
           done();
@@ -42,11 +42,11 @@ describe('log-tests', function() {
       });
       it('log uuid to '+ err_log_file +' and check log for occurrence', (done) => {
         var uuid = uuidv4();
-        logger.getLogger().error("dumping UUID to default", uuid);
+        logger.getLogger().error("dumping UUID to default&error", uuid);
 
         findUUID(err_log_file, uuid, (err, data) => {
           // err non-null, fail the test
-          assert.equal(err, null, "some error occurred.");
+          assert.equal(err, null, "some error occurred.", err);
           // assert that there were matches
           assert.equal(true, data!==null&&data.length>0, uuid+" not found in " + err_log_file);
           done();
@@ -54,11 +54,11 @@ describe('log-tests', function() {
       });
       it('log uuid to '+ access_log_file +' and check log for occurrence', (done) => {
         var uuid = uuidv4();
-        logger.getLogger("access").info("dumping UUID to default", uuid);
+        logger.getLogger("access").info("dumping UUID to access", uuid);
 
         findUUID(access_log_file, uuid, (err, data) => {
           // err non-null, fail the test
-          assert.equal(err, null, "some error occurred.");
+          assert.equal(err, null, "some error occurred.", err);
           // assert that there were matches
           assert.equal(true, data!==null&&data.length>0, uuid+" not found in " + access_log_file);
           done();
@@ -70,6 +70,6 @@ describe('log-tests', function() {
 function findUUID( filename, regexp, callback ) {
     cmd = "egrep '" + regexp.toString().slice(1, -1) + "' " + filename;
     child_process.exec(cmd, {maxBuffer: 200000000}, function(err, stdout, stderr) {
-        callback(err, stdout);
+      callback(err, stdout);
     });
 }
