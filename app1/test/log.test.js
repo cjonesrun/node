@@ -3,6 +3,8 @@ var logger = require('../log');
 var child_process = require('child_process');
 const uuidv4 = require('uuid/v4');
 
+var log_file = 'out/app.log';
+
 describe('log-tests', function() {
 
   before("before", function() {
@@ -22,63 +24,26 @@ describe('log-tests', function() {
     // runs after each test in this block
   });
 
-  function blah(err, str) {
-    console.log(err, str);
-  }
-
   // test cases
   describe('test log appending', function() {
-      it('log uuid to default and check log for occurrence', () => {
-
-        console.log("one");
-        something("two", (str) => {
-          console.log("three");
-          //assert.equal(1,2);
-        });
-
-        var cmd = "egrep '" + "somestring".toString().slice(1, -1) + "' " + "log/app.log";
-
-        child_process.exec(cmd, {maxBuffer: 200000000}, (error, stdout, stderr) => {
-          if (error)
-          {
-            console.log("error scenario",error)
-            assert.equal(1,2)
-            return errror;
-          }
-          console.log("success");
-          assert.equal(1,2);
-          return stdout;
-        });
-
-        /*var uuid = uuidv4();
+      it('log uuid to '+ log_file +' and check log for occurrence', (done) => {
+        var uuid = uuidv4();
         logger.getLogger().info("dumping UUID to default", uuid);
 
-        findUUID("log/app.log", uuid).then( (str) => {
-          console.log(str);
-          assert.equal(1,2);
-        }, (err) => { assert.equal(1,2) } ); */
-
+        findUUID(log_file, uuid, (err, str) => {
+          // err non-null, fail the test
+          assert.equal(err, null, "some error occurred.");
+          // assert that there were matches
+          assert.equal(true, str!==null&&str.length>0, uuid+" not found in " + log_file);
+          done();
+        });
       });
-  });
+    });
 });
 
-function something(str, cb) {
-  console.log(str);
-  cb(str);
-}
-
-function findUUID(filename, regexp) {
-  return new Promise((resolve, reject) => {
-    var cmd = "egrep '" + regexp.toString().slice(1, -1) + "' " + filename;
-
-    child_process.execFile(cmd, {maxBuffer: 200000000}, (error, stdout, stderr) => {
-      if (error)
-      { console.log("error scenario")
-      assert.equal(1,2)
-        return reject(error);
-      }
-      console.log("success");
-      return resolve(stdout);
+function findUUID( filename, regexp, done ) {
+    cmd = "egrep '" + regexp.toString().slice(1, -1) + "' " + filename;
+    child_process.exec(cmd, {maxBuffer: 200000000}, function(err, stdout, stderr) {
+        done(err, stdout);
     });
-  });
 }

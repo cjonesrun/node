@@ -2,10 +2,10 @@
   "appenders": {
     "console": { "type": "console", "layout": { "type": "pattern",
       "pattern": "[%d] [%p] [proc:%z] %c - %m" } },
-    "app": { "type": "dateFile", "filename": "log/app.log", "pattern": "-yyyy-MM-dd" },
-    "access": { "type": "dateFile", "filename": "log/access.log", "pattern": "-yyyy-MM-dd" },
+    "app": { "type": "dateFile", "filename": "out/app.log", "pattern": "-yyyy-MM-dd" },
+    "access": { "type": "dateFile", "filename": "out/access.log", "pattern": "-yyyy-MM-dd" },
 
-    "exceptions": { "type": "file", "filename": "log/error.log", "maxLogSize": 10240, "numBackups": 3 },
+    "exceptions": { "type": "file", "filename": "out/error.log", "maxLogSize": 10240, "numBackups": 3 },
     "error": { "type": "logLevelFilter", "appender": "exceptions", "level": "error" }
   },
   "categories": {
