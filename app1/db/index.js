@@ -52,7 +52,7 @@ const getWidgets = (callback) => {
 }
 
 const getWidget = (widgetid, callback) => {
-  _db.query("select * from public.widget where id=?;", [widgetid], (err, results) => {
+  _db.query("select * from public.widget where id=$1;", [widgetid], (err, results) => {
       if (err) {
           throw err;
       }

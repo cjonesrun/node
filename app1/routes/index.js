@@ -45,9 +45,9 @@ router.get('/widgets', function(req, res) {
 
 router.get('/widgets/:widgetid', function(req, res) {
   var db = req.db;
-  var widgetid = 1;
+  var widgetid = req.params.widgetid;
   db.getWidget( widgetid, (results) => {
-    res.render('page2', { title: 'widget', widget: results });
+    res.render('page2', { title: 'widget', widgets: results });
   });
 });
 
