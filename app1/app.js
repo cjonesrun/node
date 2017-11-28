@@ -16,14 +16,17 @@ app.set('view engine', 'pug');
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+app.use( bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
+// register routes
+// try this... move all routing to: require('./routes/index.js')(app);
 
 // hook dbapi to req
 app.use( (req,res,next) => {
     req.db = dbapi;
+    req.log = logging;
     next();
 });
 
