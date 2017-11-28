@@ -5,7 +5,7 @@
     "app": { "type": "dateFile", "filename": "log/app.log", "pattern": "-yyyy-MM-dd" },
     "access": { "type": "dateFile", "filename": "log/access.log", "pattern": "-yyyy-MM-dd" },
 
-    "exceptions": { "type": "file", "filename": "log/error.log", "maxLogSize": 10240, "numBackups": 3 },
+    "exceptions": { "type": "dateFile", "filename": "log/error.log", "pattern": "-yyyy-MM-dd" },
     "error": { "type": "logLevelFilter", "appender": "exceptions", "level": "error" }
   },
   "categories": {

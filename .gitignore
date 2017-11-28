@@ -1,6 +1,5 @@
 # Logs
-*.log
-*.log-*
+*.log*
 
 # dangling swp files
 *.swp

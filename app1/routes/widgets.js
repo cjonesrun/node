@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 var router = express.Router();
 
+const {WidgetRepo} = require('../repo/widgets.js');
+var repo = new WidgetRepo();
+
 module.exports = (router) => {
 
   console.log("adding", __filename)
@@ -36,22 +39,15 @@ module.exports = (router) => {
   });
 
   router.get('/widgets', function(req, res) {
-    var db = req.db;
-
-    db.getWidgets( (results) => {
-      if (req.query.render === 'json') {
-        res.json(results); // just send json blob
-      } else {
-        res.render('widgets', { title: 'widgets', widgets: results });
-      }
+    repo.all(req.db, (err, results) => {
+      res.render('widgets', { title: 'widgets', widgets: results });
     });
   });
 
   router.get('/widgets/:widgetid', function(req, res) {
-    var db = req.db;
     var widgetid = req.params.widgetid;
-    db.getWidget( widgetid, (results) => {
-      res.render('page2', { title: 'widget', widgets: results });
+    repo.getByID(widgetid, req.db, (err, result) => {
+      res.render('page2', { title: 'widget', widget: result });
     });
   });
 };
